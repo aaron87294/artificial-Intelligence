@@ -1,0 +1,44 @@
+# Load survey data
+import sys
+from matplotlib import pyplot as plt
+import pandas as pd
+
+
+survey_df = pd.read_csv('survey_data.csv')
+
+# (a) Probability of brown hair
+p_brown_hair = (survey_df['Hair Color'] == 'Brown').mean()
+print("P(Brown Hair):", p_brown_hair)
+
+# (b) Probability of blue eyes
+p_blue_eyes = (survey_df['Eye Color'] == 'Blue').mean()
+print("P(Blue Eyes):", p_blue_eyes)
+
+# (c) P(Blue Eyes | Brown Hair)
+brown_hair_df = survey_df[survey_df['Hair Color'] == 'Brown']
+p_blue_given_brown = (brown_hair_df['Eye Color'] == 'Blue').mean()
+print("P(Blue Eyes | Brown Hair):", p_blue_given_brown)
+
+# (d) P(Brown Hair | Blue Eyes)
+blue_eyes_df = survey_df[survey_df['Eye Color'] == 'Blue']
+p_brown_given_blue = (blue_eyes_df['Hair Color'] == 'Brown').mean()
+print("P(Brown Hair | Blue Eyes):", p_brown_given_blue)
+
+# (e) Check for independence
+# If P(A and B) ≈ P(A) * P(B), they are likely independent
+p_both = ((survey_df['Hair Color'] == 'Brown') & (survey_df['Eye Color'] == 'Blue')).mean()
+independent = abs(p_both - (p_brown_hair * p_blue_eyes)) < 0.02  # small margin
+print("P(Brown Hair ∩ Blue Eyes):", p_both)
+print("P(Brown Hair) * P(Blue Eyes):", p_brown_hair * p_blue_eyes)
+print("Are they independent?", "Yes" if independent else "No")
+
+# (f) Bar graph of hair color and eye color
+plt.figure(figsize=(10, 5))
+sys.countplot(data=survey_df, x='Hair Color', hue='Eye Color')
+plt.title('Hair and Eye Color Distribution')
+plt.xlabel('Hair Color')
+plt.ylabel('Number of Students')
+plt.legend(title='Eye Color')
+plt.grid(True)
+plt.show()
+

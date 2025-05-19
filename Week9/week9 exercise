@@ -1,0 +1,33 @@
+import numpy as np
+
+# Define matrix A
+A = np.array([
+    [4, 1, 0],
+    [-1, -2, -6],
+    [5, 0, 0]
+])
+
+# (a) Test if v1 is an eigenvector
+v1 = np.array([1, -2, 2])
+Av1 = A @ v1
+print("A @ v1 =", Av1)
+
+# Check if Av1 = λ * v1 for some scalar λ
+# We divide element-wise to see if all ratios are the same
+ratios_v1 = Av1 / v1
+print("Ratios (Av1 / v1):", ratios_v1)
+
+# (b) Test if v2 is an eigenvector
+v2 = np.array([0, 1, 0])
+Av2 = A @ v2
+print("A @ v2 =", Av2)
+
+# Check if Av2 is a scalar multiple of v2
+# Since v2 has a 0 component, we compare manually
+print("Is Av2 a multiple of v2?", np.allclose(Av2, Av2[1] * v2))
+
+# (c) Compute eigenvalues and eigenvectors of A
+eigenvalues, eigenvectors = np.linalg.eig(A)
+print("Eigenvalues:", eigenvalues)
+print("Eigenvectors:\n", eigenvectors)
+

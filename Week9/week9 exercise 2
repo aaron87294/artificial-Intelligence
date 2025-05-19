@@ -1,0 +1,40 @@
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+from sklearn.decomposition import PCA
+from sklearn.preprocessing import StandardScaler
+
+# Load dataset
+df = pd.read_csv("video_game_data.csv")
+
+# Drop missing values if any
+df = df.dropna()
+
+# Extract relevant columns
+X = df[['critic score', 'user score']]
+
+# Standardize the data
+scaler = StandardScaler()
+X_scaled = scaler.fit_transform(X)
+
+# Apply PCA
+pca = PCA(n_components=2)
+pca.fit(X_scaled)
+components = pca.components_
+
+# (a) Scatterplot
+plt.figure(figsize=(8, 6))
+plt.scatter(X['critic score'], X['user score'], alpha=0.5)
+plt.xlabel("Critic Score")
+plt.ylabel("User Score")
+plt.title("Critic vs User Scores")
+
+# (b) Plot principal component directions
+origin = np.mean(X_scaled, axis=0)
+for length, vector in zip(pca.explained_variance_, components):
+    v = vector * 3  # scale for visibility
+    plt.arrow(origin[0], origin[1], v[0], v[1], color='red', width=0.01)
+
+plt.grid(True)
+plt.show()
+

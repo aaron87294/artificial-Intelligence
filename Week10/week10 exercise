@@ -1,0 +1,41 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+# Load data
+qb_df = pd.read_csv('qb_stats.csv')
+
+# Strip column headers just in case there are spaces
+qb_df.columns = qb_df.columns.str.strip().str.lower()
+
+# (a) Mean of each numerical column
+mean_vals = qb_df.select_dtypes(include='number').mean()
+print("Mean of each numerical column:\n", mean_vals)
+
+# (b) Standard deviation of each numerical column
+std_vals = qb_df.select_dtypes(include='number').std()
+print("\nStandard deviation of each numerical column:\n", std_vals)
+
+# (c) Histogram of the number of yards
+plt.figure(figsize=(8, 5))
+plt.hist(qb_df['yards'], bins=15, edgecolor='black')
+plt.title('Histogram of Passing Yards')
+plt.xlabel('Yards')
+plt.ylabel('Number of Quarterbacks')
+plt.grid(True)
+plt.show()
+
+# (d) Boxplot of the number of touchdowns
+plt.figure(figsize=(6, 5))
+sns.boxplot(x=qb_df['touchdowns'])
+plt.title('Boxplot of Touchdowns')
+plt.xlabel('Touchdowns')
+plt.grid(True)
+plt.show()
+
+# Detecting outliers in touchdowns
+q1 = qb_df['touchdowns'].quantile(0.25)
+q3 = qb_df['touchdowns'].quantile(0.75)
+iqr = q3 - q1
+outliers = qb_df[(qb_df['touchdowns'] < q1 - 1.5 * iqr) | (qb_df['touchdowns'] > q3 + 1.5 * iqr)]
+print("\nOutliers based on touchdowns:\n", outliers[['player’s name', 'touchdowns']] if 'player’s name' in qb_df.columns else outliers[['touchdowns']])
