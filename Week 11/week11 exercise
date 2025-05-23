@@ -1,8 +1,10 @@
 import numpy as np
 import matplotlib.pyplot as plt
 from scipy.stats import binom
+import pandas as pd
 
-# Part 1: Binomial Distribution with Ensemble Model
+# --- Part 1: Binomial Distribution with Ensemble Model ---
+
 def ensemble_accuracy(n_models, model_accuracy):
     threshold = n_models // 2 + 1
     return sum(binom.pmf(k, n_models, model_accuracy) for k in range(threshold, n_models + 1))
@@ -22,8 +24,9 @@ def min_models_for_target_accuracy(individual_accuracy, target_accuracy=0.95, ma
             return m
     return None
 
-# Part 2: Working with Random Data
-pmf_values = [0.1, 0.2, 0.3, 0.2, 0.2]  # Probabilities for values 1 through 5
+# --- Part 2: Working with Random Data ---
+
+pmf_values = [0.1, 0.2, 0.3, 0.2, 0.2]
 values = [1, 2, 3, 4, 5]
 
 def generate_random_values(n=50):
@@ -35,33 +38,3 @@ def simulate_means(num_simulations=1000):
 
 def analyze_means(means):
     plt.hist(means, bins=20, edgecolor='black')
-    plt.title('Histogram of Sample Means')
-    plt.xlabel('Mean Value')
-    plt.ylabel('Frequency')
-    plt.grid(True)
-    plt.show()
-
-    mean = np.mean(means)
-    std_dev = np.std(means)
-    theoretical_mean = np.dot(values, pmf_values)
-    theoretical_var = np.dot([(x - theoretical_mean)**2 for x in values], pmf_values)
-    theoretical_std = np.sqrt(theoretical_var / 50)
-
-    return mean, std_dev, theoretical_mean, theoretical_std
-
-# Run all parts
-ensemble_result_a = ensemble_accuracy(15, 0.63)
-ensemble_result_b = min_model_accuracy(15)
-ensemble_result_c = min_models_for_target_accuracy(0.63)
-
-means_list = simulate_means()
-mean, std_dev, theo_mean, theo_std = analyze_means(means_list)
-
-import pandas as pd
-import ace_tools as tools; tools.display_dataframe_to_user(name="Simulation Results", dataframe=pd.DataFrame({
-    "Result": ["Ensemble Accuracy (15, 63%)", "Min Accuracy for 95%", "Min Models for 95%"],
-    "Value": [ensemble_result_a, ensemble_result_b, ensemble_result_c]
-}))
-
-mean, std_dev, theo_mean, theo_std
-
