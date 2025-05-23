@@ -1,0 +1,47 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+# (a) Define a valid PMF for X = {1, 2, 3, 4, 5}
+values = [1, 2, 3, 4, 5]
+pmf = [0.1, 0.2, 0.3, 0.2, 0.2]  # Sum = 1.0, so valid PMF
+
+# (b) Function to generate 50 random values and return the sample mean
+def sample_mean_from_pmf(n=50):
+    sample = np.random.choice(values, size=n, p=pmf)
+    return np.mean(sample)
+
+# (c) Run the sampling function 1000 times and store the means
+def generate_means(num_trials=1000):
+    means = [sample_mean_from_pmf() for _ in range(num_trials)]
+    return means
+
+# (d) Plot histogram and explain
+def plot_means_histogram(means):
+    plt.hist(means, bins=20, edgecolor='black')
+    plt.title('Histogram of Sample Means (1000 trials)')
+    plt.xlabel('Sample Mean')
+    plt.ylabel('Frequency')
+    plt.grid(True)
+    plt.savefig('means_histogram.png')  # For Codespaces
+    print("✅ Histogram saved as 'means_histogram.png'. The shape should be bell-like due to the Central Limit Theorem.")
+
+# (e) Calculate and print empirical and theoretical values
+def analyze_statistics(means):
+    empirical_mean = np.mean(means)
+    empirical_std = np.std(means)
+
+    # Theoretical mean and standard deviation of one sample
+    theoretical_mean = np.dot(values, pmf)
+    theoretical_var = np.dot([(x - theoretical_mean) ** 2 for x in values], pmf)
+    theoretical_std_sample_mean = np.sqrt(theoretical_var / 50)
+
+    print("\n--- Statistical Summary ---")
+    print(f"Empirical Mean of Means: {empirical_mean:.4f}")
+    print(f"Empirical Std Dev of Means: {empirical_std:.4f}")
+    print(f"Theoretical Mean: {theoretical_mean:.4f}")
+    print(f"Theoretical Std Dev of Sample Mean: {theoretical_std_sample_mean:.4f}")
+
+# --- Run all steps ---
+means = generate_means()
+plot_means_histogram(means)
+analyze_statistics(means)

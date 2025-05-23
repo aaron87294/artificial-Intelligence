@@ -1,0 +1,75 @@
+import numpy as np
+import matplotlib.pyplot as plt
+from scipy.stats import binom
+
+# --- Part 1: Binomial Distribution with Ensemble Model ---
+
+def ensemble_accuracy(n_models, model_accuracy):
+    threshold = n_models // 2 + 1
+    return sum(binom.pmf(k, n_models, model_accuracy) for k in range(threshold, n_models + 1))
+
+def min_model_accuracy(n_models, target_accuracy=0.95):
+    threshold = n_models // 2 + 1
+    for acc_percent in range(100):
+        acc = acc_percent / 100
+        if sum(binom.pmf(k, n_models, acc) for k in range(threshold, n_models + 1)) >= target_accuracy:
+            return acc_percent
+    return None
+
+def min_models_for_target_accuracy(individual_accuracy, target_accuracy=0.95, max_models=101):
+    for m in range(1, max_models, 2):  # Only odd numbers
+        threshold = m // 2 + 1
+        if sum(binom.pmf(k, m, individual_accuracy) for k in range(threshold, m + 1)) >= target_accuracy:
+            return m
+    return None
+
+def run_ensemble_analysis():
+    print("--- Part 1: Ensemble Model Analysis ---")
+    ensemble_result_a = ensemble_accuracy(15, 0.63)
+    ensemble_result_b = min_model_accuracy(15)
+    ensemble_result_c = min_models_for_target_accuracy(0.63)
+
+    print(f"(a) Accuracy of ensemble with 15 models @ 63% each: {ensemble_result_a:.4f}")
+    print(f"(b) Minimum individual accuracy needed for 95% ensemble accuracy: {ensemble_result_b}%")
+    print(f"(c) Minimum number of models needed for 95% accuracy @ 63% each: {ensemble_result_c}")
+
+# --- Part 2: Working with Random Data ---
+
+values = [1, 2, 3, 4, 5]
+pmf = [0.2, 0.1, 0.2, 0.4, 0.1]
+
+def sample_mean_from_pmf(n=50):
+    sample = np.random.choice(values, size=n, p=pmf)
+    return np.mean(sample)
+
+def generate_means(num_trials=1000):
+    return [sample_mean_from_pmf() for _ in range(num_trials)]
+
+def plot_means_histogram(means):
+    plt.hist(means, bins=20, edgecolor='black')
+    plt.title('Histogram of Sample Means (1000 trials)')
+    plt.xlabel('Sample Mean')
+    plt.ylabel('Frequency')
+    plt.grid(True)
+    plt.savefig('means2_histogram.png')
+    print("\n✅ Histogram saved as 'means2_histogram.png'. Expected shape: bell curve (Central Limit Theorem).")
+
+def analyze_statistics(means):
+    empirical_mean = np.mean(means)
+    empirical_std = np.std(means)
+    theoretical_mean = np.dot(values, pmf)
+    theoretical_var = np.dot([(x - theoretical_mean) ** 2 for x in values], pmf)
+    theoretical_std_sample_mean = np.sqrt(theoretical_var / 50)
+
+    print("\n--- Part 2: Statistical Summary ---")
+    print(f"Empirical Mean of Means: {empirical_mean:.4f}")
+    print(f"Empirical Std Dev of Means: {empirical_std:.4f}")
+    print(f"Theoretical Mean: {theoretical_mean:.4f}")
+    print(f"Theoretical Std Dev of Sample Mean: {theoretical_std_sample_mean:.4f}")
+
+# --- Run Both Parts ---
+if __name__ == "__main__":
+    run_ensemble_analysis()
+means = generate_means()
+plot_means_histogram(means)
+analyze_statistics(means)
