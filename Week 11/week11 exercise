@@ -1,12 +1,7 @@
 import numpy as np
-import matplotlib
-matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from scipy.stats import binom
 import pandas as pd
-
-plt.savefig('histogram.png')  # Save the figure instead of showing
-print("Plot saved as histogram.png")
 
 # --- Part 1: Binomial Distribution with Ensemble Model ---
 
@@ -43,4 +38,36 @@ def simulate_means(num_simulations=1000):
 
 def analyze_means(means):
     plt.hist(means, bins=20, edgecolor='black')
+    plt.title('Histogram of Sample Means')
+    plt.xlabel('Mean Value')
+    plt.ylabel('Frequency')
+    plt.grid(True)
+    plt.show()
 
+    mean = np.mean(means)
+    std_dev = np.std(means)
+    theoretical_mean = np.dot(values, pmf_values)
+    theoretical_var = np.dot([(x - theoretical_mean)**2 for x in values], pmf_values)
+    theoretical_std = np.sqrt(theoretical_var / 50)
+
+    print("\n--- Sample Mean Analysis ---")
+    print(f"Empirical Mean: {mean:.4f}")
+    print(f"Empirical Std Dev: {std_dev:.4f}")
+    print(f"Theoretical Mean: {theoretical_mean:.4f}")
+    print(f"Theoretical Std Dev: {theoretical_std:.4f}")
+
+# --- Run everything and show results ---
+
+# Part 1 Results
+ensemble_result_a = ensemble_accuracy(15, 0.63)
+ensemble_result_b = min_model_accuracy(15)
+ensemble_result_c = min_models_for_target_accuracy(0.63)
+
+print("--- Ensemble Model Results ---")
+print(f"(a) Accuracy of ensemble with 15 models @ 63% each: {ensemble_result_a:.4f}")
+print(f"(b) Minimum individual accuracy needed for 95% ensemble accuracy: {ensemble_result_b}%")
+print(f"(c) Minimum number of models needed for 95% accuracy @ 63% each: {ensemble_result_c}")
+
+# Part 2 Results
+means_list = simulate_means()
+analyze_means(means_list)
