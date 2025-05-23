@@ -1,7 +1,12 @@
 import numpy as np
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 from scipy.stats import binom
 import pandas as pd
+
+plt.savefig('histogram.png')  # Save the figure instead of showing
+print("Plot saved as histogram.png")
 
 # --- Part 1: Binomial Distribution with Ensemble Model ---
 
@@ -38,3 +43,4 @@ def simulate_means(num_simulations=1000):
 
 def analyze_means(means):
     plt.hist(means, bins=20, edgecolor='black')
+
