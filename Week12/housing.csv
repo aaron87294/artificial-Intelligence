@@ -1,0 +1,50 @@
+median_house_value,total_bedrooms,ocean_proximity,purchase_month
+189,2,ISLAND,january
+188,2,ISLAND,february
+187,2,ISLAND,march
+186,3,OCEAN FRONT,april
+185,3,OCEAN FRONT,may
+184,3,OCEAN FRONT,june
+183,3,OCEAN FRONT,july
+182,3,NEAR BAY,august
+181,3,NEAR BAY,september
+182,,NEAR BAY,october
+181,3,NEAR BAY,november
+180,3,NEAR BAY,december
+186,3,NEAR BAY,january
+185,3,NEAR BAY,february
+184,3,NEAR BAY,march
+183,3,NEAR BAY,april
+182,3,NEAR BAY,may
+181,3,NEAR BAY,june
+180,3,NEAR BAY,july
+179,3,NEAR BAY,august
+178,3,NEAR BAY,september
+176,3,NEAR BAY,october
+175,3,NEAR BAY,november
+178,4,INLAND,december
+179,,INLAND,january
+180,4,INLAND,february
+181,4,INLAND,march
+182,4,INLAND,april
+183,4,INLAND,may
+184,4,INLAND,june
+177,,INLAND,july
+178,4,INLAND,august
+188,4,ISLAND,september
+177,4,INLAND,october
+178,4,INLAND,november
+179,4,INLAND,december
+180,,INLAND,january
+181,5,DESERT,february
+179,5,INLAND,march
+173,5,DESERT,april
+177,5,INLAND,may
+184,5,ISLAND,june
+180,2,NEAR BAY,july
+180,3,NEAR BAY,august
+176,4,DESERT,september
+183,2,NEAR BAY,october
+174,2,INLAND,november
+180,3,NEAR BAY,december
+181,4,NEAR BAY,january
