@@ -1,0 +1,28 @@
+# Re-import necessary packages due to state reset
+# Define the given probabilities
+P_A = 0.5
+P_B = 0.3
+P_C = 0.2
+
+P_D_given_A = 0.03
+P_D_given_B = 0.02
+P_D_given_C = 0.04
+
+P_ND_given_A = 0.97
+P_ND_given_B = 0.98
+P_ND_given_C = 0.96
+
+# Calculate total probability of defective cards P(D)
+P_D = P_D_given_A * P_A + P_D_given_B * P_B + P_D_given_C * P_C
+
+# (a) Bayes' Theorem: P(A | D)
+P_A_given_D = (P_D_given_A * P_A) / P_D
+
+# Calculate total probability of not defective cards P(ND)
+P_ND = P_ND_given_A * P_A + P_ND_given_B * P_B + P_ND_given_C * P_C
+
+# (b) Bayes' Theorem: P(C | ND)
+P_C_given_ND = (P_ND_given_C * P_C) / P_ND
+
+P_A_given_D, P_C_given_ND
+
